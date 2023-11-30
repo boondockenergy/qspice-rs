@@ -8,8 +8,8 @@ pub struct Component {
 }
 
 impl Component {
-    pub fn eval(&mut self, params: &mut [Parameter]) {
-        self.count += 1.0;
+    pub fn eval(&mut self, t: f64, params: &mut [Parameter]) {
+        self.count += 1.0 * t;
 
         // Parameters are positional based on the index of the pin
         // of the Ø symbol in QSpice
@@ -47,7 +47,7 @@ pub extern "C" fn qspice_rs(state: *mut *mut Component, t: f64, param: *mut Para
         let data = std::slice::from_raw_parts_mut(param, 8);
 
         // Call the eval func of the Component struct for this time step
-        (**state).eval(data);
+        (**state).eval(t, data);
     }
 
 }
